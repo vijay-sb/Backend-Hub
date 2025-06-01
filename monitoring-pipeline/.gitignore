@@ -1,0 +1,22 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+
+# Docker
+*.log
+Dockerfile*
+docker-compose.override.yml
+
+# Optional system files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# OS generated
+*.swp
+nodemon.json
