@@ -7,8 +7,8 @@ This is a simple Node.js TODO backend with an integrated **observability pipelin
 ## 🚀 Setup
 
 ```bash
-git clone <your-repo-url>
-cd <project-folder>
+git clone https://github.com/vijay-sb/Backend-Hub.git
+cd Backend-Hub/monitoring-pipeline
 docker compose up --build
 
 API: http://localhost:3000
