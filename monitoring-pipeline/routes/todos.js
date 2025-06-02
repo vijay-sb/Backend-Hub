@@ -10,7 +10,7 @@ router.post('/',(req,res)=>
     const { title } = req.body;
     const todo = {id:id++,title,done:false}
     todos.push(todo);
-    res.staus(201).json(todo);
+    res.status(201).json(todo);
   });
 router.put('/:id',(req,res) =>
 {
@@ -30,7 +30,7 @@ router.delete('/:id',(req,res) =>
 {
     const todoId= parseInt(req.params.id,10);
     const todoindex = todos.findIndex(t=>t.id=== todoId);
-    if (todoIndex === -1) {
+    if (todoindex === -1) {
     return res.status(404).json({ message: 'Todo not found' });
   }
     todos.splice(todoindex,1);
