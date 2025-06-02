@@ -7,7 +7,6 @@ yarn-error.log*
 
 # Docker
 *.log
-Dockerfile*
 docker-compose.override.yml
 
 # Optional system files
