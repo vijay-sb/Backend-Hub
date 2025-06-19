@@ -26,7 +26,28 @@ exports.getUserById = (req,res,next) =>
     next(error);
   }
 
-  } 
-  };
+  } ;
+
+ exports.createUser = (req,res,next) =>
+{
+  try{
+
+  const user = userService.createUser(req.body);
+  logger.info({message:'User Created',user});
+  res.status(201).json(user);
+  }
+  catch(err)
+  {
+    next(err);
+  }
+  }
+
+  }
+
+
+
+
+
+
   
 ``
