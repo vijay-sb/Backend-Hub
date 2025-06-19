@@ -5,7 +5,7 @@ exports.getUsers=(req,res) =>
 {
   const users = userService.getAllUsers();
   logger.info({message: 'Fetched all users' , count:users.length});
-  res.status(200).json({`Fetched Users`:users})
+  res.status(200).json(users)
 }
 
 exports.getUserById = (req,res,next) =>
@@ -38,16 +38,7 @@ exports.getUserById = (req,res,next) =>
   }
   catch(err)
   {
-    next(err);
+    next(err); //to Global Error Handler
   }
   }
 
-  }
-
-
-
-
-
-
-  
-``
