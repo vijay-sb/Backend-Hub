@@ -7,10 +7,10 @@ let logstashStream;
 try {
   logstashStream = net.connect({ host: 'logstash', port: 5000 });
   logstashStream.on('error', err => {
-    console.error('⚠️ Logstash TCP stream error:', err.message);
+    console.error('Logstash TCP stream error:', err.message);
   });
 } catch (err) {
-  console.error('⚠️ Failed to connect to Logstash:', err.message);
+  console.error('Failed to connect to Logstash:', err.message);
 }
 
 const logger = createLogger({
