@@ -1,0 +1,39 @@
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# dotenv
+.env
+.env.*.local
+
+# OS and Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Docker
+*.pid
+*.seed
+*.bak
+*.tar
+docker-compose.override.yml
+.env.docker
+
+# Logstash pipeline artifacts (optional)
+logstash/data/
+logstash/logs/
+
+# Elasticsearch and Kibana data
+elasticsearch/data/
+kibana/data/
