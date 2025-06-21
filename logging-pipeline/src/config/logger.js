@@ -1,6 +1,17 @@
 const { createLogger, format, transports } = require('winston');
 const net = require('net');
 
+let logstashStream;
+
+try {
+  logstashStream = net.connect({ host: 'logstash', port: 5000 });
+  logstashStream.on('error', err => {
+    console.error('⚠️ Logstash TCP stream error:', err.message);
+  });
+} catch (err) {
+  console.error('⚠️ Failed to connect to Logstash:', err.message);
+}
+
 const logger = createLogger({
   level: 'info',
   format: format.combine(
@@ -11,10 +22,8 @@ const logger = createLogger({
   defaultMeta: { service: 'elk-logging-backend' },
   transports: [
     new transports.Console(),
-    new transports.Stream({
-      stream: net.connect({ port: 5000, host: 'logstash' }),
-    }),
-  ],
+    ...(logstashStream ? [new transports.Stream({ stream: logstashStream })] : [])
+  ]
 });
 
 module.exports = logger;

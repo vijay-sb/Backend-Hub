@@ -3,7 +3,7 @@ const logger = require('../config/logger.js')
 
 exports.getUsers=(req,res) =>
 {
-  const users = userService.getAllUsers();
+  const users = userService.getAllUser();
   logger.info({message: 'Fetched all users' , count:users.length});
   res.status(200).json(users)
 }
