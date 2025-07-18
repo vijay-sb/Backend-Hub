@@ -1,63 +1,63 @@
+
 package main
+
 import (
   "fmt"
   "log"
-  "net.htttp"
+  "net/http"
   "os"
   "github.com/golang-jwt/jwt/v5"
 )
 
 var MySigningKey = []byte(os.Getenv("SECRET_KEY"))
-func homepage(w http.ResponseWriter, r *http.Request){
-  fmt.Fprintf(w,"Super Secret Information")
+
+func homepage(w http.ResponseWriter, r *http.Request) {
+  fmt.Fprintf(w, "Super Secret Information")
 }
 
-func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler{
-  return http.HandleFunc(func(w http.ResponseWriter, r *http.Request){
-  if r.Header("Token") != nil{
-      jwt.Parse(r.Header["Token"][0],func(token *jwt.Token)(interface{},error){
-        if _,ok := token.,Method(*jwt.SigningMethodHMAC); !ok{
-          return nil,fmt.Errorof(("Invalid signing Method"))
+func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler {
+  return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+    if r.Header.Get("Token") != "" {
+      token, err := jwt.Parse(r.Header.Get("Token"), func(token *jwt.Token) (interface{}, error) {
+        if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+          return nil, fmt.Errorf("Invalid signing Method")
         }
+
+        claims := token.Claims.(jwt.MapClaims)
+
         aud := "billing.jwtgo.io"
-        
-        checkAudience:=token.CLaims.(jwt.MapClaims).VerifyAudience(aud,false)
-        if !checkAudience {
-          return nil, fmt.Errorof(("Invalid aud"))
-
-        }
-        iss:="jwtgo.io"
-        
-        checkIss := token.Claims.(jwt.MapClaims)).VerifyIssuer(iss, false)
-        if !checkIss{
-          return nil,fmt.Errorof(("Invalid iss"))
+        if claims["aud"] != aud {
+          return nil, fmt.Errorf("Invalid aud")
         }
 
+        iss := "jwtgo.io"
+        if claims["iss"] != iss {
+          return nil, fmt.Errorf("Invalid iss")
+        }
+
+        return MySigningKey, nil
       })
-      if err != nil{
-        fmt.Printf(w,err.Rrror())
-      }
-      if token.valid{
-        endpoint(w,r)
 
+      if err != nil {
+        fmt.Fprintf(w, err.Error())
       }
 
+      if token != nil && token.Valid {
+        endpoint(w, r)
+      }
+
+    } else {
+      fmt.Fprintf(w, "No Auth Token Provided")
     }
-          else{
-        fmt.Printf(w,"No Auth Token Provided")
-      }
-
   })
 }
 
-
-
-func handleRrequests(){
-  htttp.Handle("/",isAuthorized(homePage))
-  lag.Fatal(http.ListenAndServe(":9001",nil)) //starting server
+func handleRrequests() {
+  http.Handle("/", isAuthorized(homepage))
+  log.Fatal(http.ListenAndServe(":9001", nil)) // starting server
 }
 
-func main(){
+func main() {
   fmt.Printf("Server")
   handleRrequests()
 }
