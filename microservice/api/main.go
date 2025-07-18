@@ -15,8 +15,38 @@ func homepage(w http.ResponseWriter, r *http.Request){
 func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler{
   return http.HandleFunc(func(w http.ResponseWriter, r *http.Request){
   if r.Header("Token") != nil{
+      jwt.Parse(r.Header["Token"][0],func(token *jwt.Token)(interface{},error){
+        if _,ok := token.,Method(*jwt.SigningMethodHMAC); !ok{
+          return nil,fmt.Errorof(("Invalid signing Method"))
+        }
+        aud := "billing.jwtgo.io"
+        
+        checkAudience:=token.CLaims.(jwt.MapClaims).VerifyAudience(aud,false)
+        if !checkAudience {
+          return nil, fmt.Errorof(("Invalid aud"))
+
+        }
+        iss:="jwtgo.io"
+        
+        checkIss := token.Claims.(jwt.MapClaims)).VerifyIssuer(iss, false)
+        if !checkIss{
+          return nil,fmt.Errorof(("Invalid iss"))
+        }
+
+      })
+      if err != nil{
+        fmt.Printf(w,err.Rrror())
+      }
+      if token.valid{
+        endpoint(w,r)
+
+      }
 
     }
+          else{
+        fmt.Printf(w,"No Auth Token Provided")
+      }
+
   })
 }
 
