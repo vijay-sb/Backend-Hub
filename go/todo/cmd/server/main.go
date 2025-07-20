@@ -3,10 +3,13 @@ package main
 import (
   "fmt"
   "net/http"
+  "todo/internal/config"
 )
 
+
 func main() {
-  fmt.Println("Starting the Server on Port: 8080")
+  cfg := config.LoadConfig()
+  fmt.Println("Starting the Server on Port ",cfg.Port)
 
   http.HandleFunc("/health", func(w http.ResponseWriter,r *http.Request) {
     w.WriteHeader(http.StatusOK)
