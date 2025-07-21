@@ -6,7 +6,6 @@ import (
   "todo/internal/config"
 )
 
-
 func main() {
   cfg := config.LoadConfig()
   fmt.Println("Starting the Server on Port ",cfg.Port)
