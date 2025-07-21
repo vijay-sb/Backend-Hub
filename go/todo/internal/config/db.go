@@ -1,10 +1,9 @@
-package db
+package config
 
 import (
    "database/sql"
     "log"
     "time"
-
     _ "github.com/jackc/pgx/v5/stdlib"
 )
 func ConnectDB(dbURL string) *sql.DB{
