@@ -24,3 +24,10 @@ func (r *todoRepo) CreateTodo(ctx context.Context, todo *model.Todo) error {
     err := r.db.QueryRowContext(ctx, query, todo.Title, todo.Completed, todo.CreatedAt).Scan(&todo.ID)
     return err
 }
+
+
+
+// todoRepo needs to have all funcitons of interface TodoRepository
+// and (r *todoRepo)  this line make the CreateTodo funciton releate to the interface funciton 
+// When using this first use the NewTodoRepository fucntion to intialise db value then use funciton from the interface
+
