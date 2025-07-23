@@ -23,6 +23,8 @@ func main() {
     w.WriteHeader(http.StatusOK)
     w.Write([]byte("OK"))
   })
+
+  http.HandleFunc("/todos", todoHandler.CreateTodo)
   http.ListenAndServe(":8080",nil)
 }
 
