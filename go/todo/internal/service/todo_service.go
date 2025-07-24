@@ -9,6 +9,7 @@ import (
 
 type TodoService interface {
     CreateTodo(ctx context.Context, title string) (*model.Todo, error)
+    GetAllTodo(ctc context.Context) ([]*model.Todo,error)
 }
 type todoService struct {                     //intialise to the repo as
     repo repositry.TodoRepository
@@ -27,6 +28,11 @@ func (s *todoService) CreateTodo(ctx context.Context, title string) (*model.Todo
 
     err := s.repo.CreateTodo(ctx, todo)
     return todo, err
+
+func (s *todoService) GetAllTodo(ctx context.Context) ([]*model.Todo,error)
+  {
+    err := s.repo.GetAllTodos(ctx)
+  }
 //FUll WORKFLOW
 /*main.go
   |

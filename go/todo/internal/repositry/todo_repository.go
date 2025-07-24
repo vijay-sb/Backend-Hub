@@ -8,6 +8,7 @@ import (
 
 type TodoRepository interface {
   CreateTodo(ctx context.Context,todo *model.Todo) error
+  GetAllTodos(ctx context.Context) ([]*model.Todo,error)
 }
 
 type todoRepo struct {
@@ -23,6 +24,12 @@ func (r *todoRepo) CreateTodo(ctx context.Context, todo *model.Todo) error {
 
     err := r.db.QueryRowContext(ctx, query, todo.Title, todo.Completed, todo.CreatedAt).Scan(&todo.ID)
     return err
+}
+
+func (r *todoRepo) GetAllTodos(ctx context.Context) ([]*model.Todo,error) {
+  rows,err := r.db.QueryContext(ctx,`SELCET id,title,completed,created_at FROM todos ORDER BY id DESC`)
+
+  
 }
 
 

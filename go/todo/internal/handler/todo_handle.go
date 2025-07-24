@@ -31,4 +31,12 @@ func (h *TodoHandler) CreateTodo(w http.ResponseWriter, r *http.Request) {
  w.WriteHeader(http.StatusCreated)
     json.NewEncoder(w).Encode(todo) 
 }
+func (h *TodoHandler) GetAllTodos(w http.ResponseWriter, r *http.Request) {
+  todos,err := h.svc.GetAllTodos(r.Context())
+  if err != nil {
+        http.Error(w, "Failed to fetch todos", http.StatusInternalServerError)
+        return
+    }
 
+    json.NewEncoder(w).Encode(todos)
+}
