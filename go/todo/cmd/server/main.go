@@ -1,8 +1,12 @@
 package main
 
 import (
+      "database/sql"
+    "log"
   "fmt"
   "net/http"
+      "github.com/go-chi/chi/v5"
+    "github.com/go-chi/chi/v5/middleware"
   "todo/internal/config"
   "todo/internal/handler"
   "todo/internal/repositry"
@@ -19,12 +23,21 @@ func main() {
   todoSvc := service.NewTodoService(todoRepo)
   todoHandler := handler.NewServiceHandler(todoSvc)
 
-  http.HandleFunc("/health", func(w http.ResponseWriter,r *http.Request) {
-    w.WriteHeader(http.StatusOK)
-    w.Write([]byte("OK"))
-  })
+  r := chi.NewRouter()
+  r.Use(middleware.Logger)
 
-  http.HandleFunc("/todos", todoHandler.CreateTodo)
-  http.ListenAndServe(":8080",nil)
+  r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+        w.Write([]byte("OK"))
+    })
+
+  r.Route("/todos", func(r chi.Router) {
+        r.Post("/", todoHandler.CreateTodo)
+        r.Get("/", todoHandler.GetAllTodos)
+    })
+  if err := http.ListenAndServe(":"+cfg.Port, r); err != nil {
+        log.Fatalf("Server failed to start: %v", err)
+    }
+
+
 }
 
