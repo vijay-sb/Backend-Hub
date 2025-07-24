@@ -9,7 +9,7 @@ type TodoHandler struct {
   svc service.TodoService
 }
 
-func NewServiceHandler (svc *service.TodoService) *TodoHandler { //will be called in main.go and gets initialised with svc
+func NewServiceHandler (svc service.TodoService) *TodoHandler { //will be called in main.go and gets initialised with svc
   return &TodoHandler{svc:svc}
 }
 
@@ -19,7 +19,7 @@ func (h *TodoHandler) CreateTodo(w http.ResponseWriter, r *http.Request) {
     }
 
     if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-        http.Error(w, "Invalid input", http.StatusBadRequest)
+      http.Error(w, "Invalid input", http.StatusBadRequest)
         return
     }
 

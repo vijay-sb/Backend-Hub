@@ -11,10 +11,10 @@ type TodoService interface {
     CreateTodo(ctx context.Context, title string) (*model.Todo, error)
 }
 type todoService struct {                     //intialise to the repo as
-    repo repository.TodoRepository
+    repo repositry.TodoRepository
 }
 
-func NewTodoService(repo repository.TodoRepository) TodoService {  //returns a new service of type TodoService
+func NewTodoService(repo repositry.TodoRepository) TodoService {  //returns a new service of type TodoService
     return &todoService{repo: repo}
 }
 
@@ -45,3 +45,4 @@ TodoRepository interface
   v
 todoRepo struct (with db access)
 }*/
+}
